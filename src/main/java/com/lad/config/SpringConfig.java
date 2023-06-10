@@ -14,9 +14,5 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class SpringConfig {
 
-    @Bean
-    public FileUploadUtil fileUploadUtil() {
-        return new FileUploadUtil();
-    }
 
 }
