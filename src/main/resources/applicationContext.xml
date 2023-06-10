@@ -34,10 +34,9 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="typeAliasesPackage" value="com.lad.model" />
-        <property name="mapperLocations" value="classpath*:com/lad/mapper/*.xml" />
     </bean>
 
-    <!-- Service 和 Mapper 的自动扫描 -->
+    <!-- Service 的自动扫描 -->
     <context:component-scan base-package="com.lad.service" />
 
     <!-- 开启注解事务管理 -->
