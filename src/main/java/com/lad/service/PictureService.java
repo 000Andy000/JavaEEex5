@@ -2,6 +2,7 @@ package com.lad.service;
 
 import com.lad.model.Picture;
 import com.lad.model.vo.PictureVo;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

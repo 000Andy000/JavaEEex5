@@ -1,9 +1,7 @@
 package com.lad.service;
 
+import org.springframework.stereotype.Service;
 
-import com.lad.model.User;
-
-import java.util.List;
 
 /**
  * @author Andy
@@ -12,9 +10,4 @@ import java.util.List;
 public interface ConcernService {
     //添加、删除关注记录
     public boolean toggleConcern(Integer concernerId, Integer concernedId) ;
-
-
-
-
-
 }

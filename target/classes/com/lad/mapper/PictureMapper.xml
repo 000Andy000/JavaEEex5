@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lad.dao.PictureDao">
+<mapper namespace="com.lad.mapper.PictureMapper">
 
-    <select id="searchPicturesByTag" resultType="com.lad.model.Picture">
+    <select id="searchPicturesByTag" resultType="Picture">
         SELECT * FROM picture
         WHERE
         <foreach collection="tags" item="tag" separator=" OR ">
@@ -13,7 +13,7 @@
         LIMIT #{offset}, #{pageSize}
     </select>
 
-    <select id="selectPicturesByConcern" resultType="com.lad.model.Picture">
+    <select id="selectPicturesByConcern" resultType="Picture">
         SELECT * FROM picture
         WHERE
         <foreach collection="userIds" item="userId" separator=" OR ">

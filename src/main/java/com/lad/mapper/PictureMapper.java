@@ -1,4 +1,4 @@
-package com.lad.dao;
+package com.lad.mapper;
 
 import com.lad.model.Picture;
 import org.apache.ibatis.annotations.*;
@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Mapper
 @Repository
-public interface PictureDao {
+public interface PictureMapper {
     //插入图片
     @Insert("INSERT INTO picture (name, fname, user_id, intro, tags, upload_time, click_num) " +
             "VALUES (#{name}, #{fname}, #{userId}, #{intro}, #{tags}, #{uploadTime}, #{clickNum})")

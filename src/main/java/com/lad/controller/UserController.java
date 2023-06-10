@@ -3,6 +3,7 @@ package com.lad.controller;
 import com.lad.model.Result;
 import com.lad.model.User;
 import com.lad.service.Impl.UserServiceImpl;
+import com.lad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,10 +19,10 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserServiceImpl userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

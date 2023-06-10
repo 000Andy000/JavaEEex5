@@ -1,6 +1,7 @@
 package com.lad.service;
 
 import com.lad.model.User;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -8,6 +9,7 @@ import java.util.List;
  * @author Andy
  * @date 2023/6/6 11:41
  */
+
 public interface UserService {
     //注册
     public boolean register(User user) ;
@@ -26,6 +28,9 @@ public interface UserService {
 
     //修改个人信息
     public boolean updateUser(User user) ;
+
+    //获取个人信息
+    public User getUserById(Integer id) ;
 
     //获取关注列表
     public List<User> getConcerned(Integer userId) ;

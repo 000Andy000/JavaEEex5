@@ -1,4 +1,4 @@
-package com.lad.dao;
+package com.lad.mapper;
 
 import com.lad.model.Concern;
 import org.apache.ibatis.annotations.*;
@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Mapper
 @Repository
-public interface ConcernDao {
+public interface ConcernMapper {
 
     //插入关注记录
     @Insert("INSERT INTO concern (concerner_id, concerned_id, concern_time) " +

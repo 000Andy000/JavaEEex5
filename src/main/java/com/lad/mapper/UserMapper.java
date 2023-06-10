@@ -1,4 +1,4 @@
-package com.lad.dao;
+package com.lad.mapper;
 
 import com.lad.model.User;
 import org.apache.ibatis.annotations.*;
@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Mapper
 @Repository
-public interface UserDao {
+public interface UserMapper {
 
     //添加用户
     @Insert("INSERT INTO user (username, password, name, intro, gender, province, city, regist_time, type, email, mobile, QQ, status) " +

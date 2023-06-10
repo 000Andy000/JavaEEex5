@@ -4,12 +4,11 @@ package com.lad.service.Impl;
  * @author Andy
  * @date 2023/6/5 16:17
  */
-import com.lad.dao.ConcernDao;
-import com.lad.dao.PictureDao;
-import com.lad.dao.UserDao;
+import com.lad.mapper.ConcernMapper;
+import com.lad.mapper.PictureMapper;
+import com.lad.mapper.UserMapper;
 import com.lad.model.Concern;
 import com.lad.model.Picture;
-import com.lad.model.User;
 import com.lad.model.vo.PictureVo;
 import com.lad.service.PictureService;
 import com.lad.utils.FileUploadUtil;
@@ -21,17 +20,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+
 public class PictureServiceImpl implements PictureService {
 
-    private final PictureDao pictureDao;
-    private final UserDao userDao;
-    private final ConcernDao concernDao;
+    private final PictureMapper pictureMapper;
+    private final UserMapper userMapper;
+    private final ConcernMapper concernMapper;
 
     @Autowired
-    public PictureServiceImpl(PictureDao pictureDao,UserDao userDao, ConcernDao concernDao) {
-        this.pictureDao = pictureDao;
-        this.userDao = userDao;
-        this.concernDao = concernDao;
+    public PictureServiceImpl(PictureMapper pictureMapper, UserMapper userMapper, ConcernMapper concernMapper) {
+        this.pictureMapper = pictureMapper;
+        this.userMapper = userMapper;
+        this.concernMapper = concernMapper;
     }
 
     //上传图片
@@ -48,7 +48,7 @@ public class PictureServiceImpl implements PictureService {
         picture.setTags(tags);
 
         // 将 Picture 对象保存到数据库
-        int row = pictureDao.insertPicture(picture);
+        int row = pictureMapper.insertPicture(picture);
 
         return row > 0;
     }
@@ -60,18 +60,18 @@ public class PictureServiceImpl implements PictureService {
         picture.setName(name);
         picture.setTags(tag);
         picture.setIntro(intro);
-        int row = pictureDao.updatePicture(picture);
+        int row = pictureMapper.updatePicture(picture);
         return row > 0;
     }
 
     // 根据图片 ID 查找图片
     public Picture selectPictureById(Integer pictureId) {
-        return pictureDao.selectPictureById(pictureId);
+        return pictureMapper.selectPictureById(pictureId);
     }
 
     // 根据图片 ID 删除图片
     public boolean deletePictureById(Integer pictureId) {
-        int row = pictureDao.deletePictureById(pictureId);
+        int row = pictureMapper.deletePictureById(pictureId);
         return row > 0;
     }
 
@@ -81,7 +81,7 @@ public class PictureServiceImpl implements PictureService {
         for (Picture picture : pictures) {
             //获取图片发布者用户名
             Integer userId = Integer.valueOf(picture.getUserId());
-            String username = userDao.selectByUserId(userId).getUsername();
+            String username = userMapper.selectByUserId(userId).getUsername();
             PictureVo pictureVo = new PictureVo();
             pictureVo.setId(picture.getId());
             pictureVo.setName(picture.getName());
@@ -96,21 +96,21 @@ public class PictureServiceImpl implements PictureService {
     //查询某用户的图片
     public List<PictureVo> searchPicturesByUser(String userId, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        List<Picture> pictures = pictureDao.selectPicturesByUserId(userId, offset, pageSize);
+        List<Picture> pictures = pictureMapper.selectPicturesByUserId(userId, offset, pageSize);
         return  toPicVo(pictures);
     }
 
     // 根据tag搜索图片
     public List<PictureVo> searchPicturesByTag(List<String> tags, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        List<Picture> pictures = pictureDao.searchPicturesByTag(tags, offset, pageSize);
+        List<Picture> pictures = pictureMapper.searchPicturesByTag(tags, offset, pageSize);
         return  toPicVo(pictures);
     }
 
     // 根据name搜索图片
     public List<PictureVo> searchPicturesByName(String name, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        List<Picture> pictures = pictureDao.searchPicturesByName(name, offset, pageSize);
+        List<Picture> pictures = pictureMapper.searchPicturesByName(name, offset, pageSize);
         return  toPicVo(pictures);
     }
 
@@ -118,11 +118,11 @@ public class PictureServiceImpl implements PictureService {
     public List<PictureVo> searchPicturesByConcern(Integer userId, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
         ArrayList<Integer> userIds = new ArrayList<>();
-        List<Concern> concerns = concernDao.selectConcerner(userId);
+        List<Concern> concerns = concernMapper.selectConcerner(userId);
         for (Concern concern:concerns){
-            userIds.add((userDao.selectByUserId(concern.getConcernedId())).getId());
+            userIds.add((userMapper.selectByUserId(concern.getConcernedId())).getId());
         }
-        List<Picture> pictures = pictureDao.selectPicturesByConcern(userIds,offset,pageSize);
+        List<Picture> pictures = pictureMapper.selectPicturesByConcern(userIds,offset,pageSize);
         return toPicVo(pictures);
     }
 

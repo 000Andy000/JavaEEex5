@@ -1,14 +1,11 @@
 package com.lad.service.Impl;
 
-import com.lad.dao.ConcernDao;
-import com.lad.dao.UserDao;
+import com.lad.mapper.ConcernMapper;
 import com.lad.model.Concern;
-import com.lad.model.User;
 import com.lad.service.ConcernService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Date;
 
 
@@ -20,7 +17,7 @@ import java.util.Date;
 public class ConcernServiceImpl implements ConcernService {
 
     @Autowired
-    private ConcernDao concernDao;
+    private ConcernMapper concernMapper;
 
 
     //添加、删除关注记录
@@ -29,15 +26,15 @@ public class ConcernServiceImpl implements ConcernService {
         concern.setConcernerId(concernerId);
         concern.setConcernedId(concernedId);
 
-        Concern existingConcern = concernDao.selectConcern(concernerId, concernedId);
+        Concern existingConcern = concernMapper.selectConcern(concernerId, concernedId);
         int rows;
         if (existingConcern != null) {
             // 已存在关注记录，删除该记录
-            rows = concernDao.deleteConcern(concernerId, concernedId);
+            rows = concernMapper.deleteConcern(concernerId, concernedId);
         } else {
             // 不存在关注记录，添加新记录
             concern.setConcernTime(new Date());  // 设置关注时间为当前时间
-            rows = concernDao.insertConcern(concern);
+            rows = concernMapper.insertConcern(concern);
         }
         return rows > 0;
     }

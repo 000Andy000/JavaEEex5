@@ -1,6 +1,7 @@
 package com.lad.controller;
 
 import com.lad.model.Result;
+import com.lad.service.ConcernService;
 import com.lad.service.Impl.ConcernServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,10 +17,10 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/concerns")
 public class ConcernController {
 
-    private final ConcernServiceImpl concernService;
+    private final ConcernService concernService;
 
     @Autowired
-    public ConcernController(ConcernServiceImpl concernService) {
+    public ConcernController(ConcernService concernService) {
         this.concernService = concernService;
     }
 
