@@ -14,7 +14,6 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
-
   <!--  springmvc核心控制器-->
   <servlet>
     <servlet-name>dispatcher</servlet-name>
