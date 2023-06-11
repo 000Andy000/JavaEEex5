@@ -25,6 +25,7 @@ public class PictureController {
 
     @Autowired
     public PictureController(PictureService pictureService) {
+        System.out.println("sadsdasd");
         this.pictureService = pictureService;
     }
 

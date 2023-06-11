@@ -10,15 +10,4 @@
         <setting name="mapUnderscoreToCamelCase" value="true" />
     </settings>
 
-    <!-- 配置类型别名自动扫描 -->
-    <typeAliases>
-        <package name="com.lad.model" />
-    </typeAliases>
-
-
-    <mappers>
-        <!--扫描mapper-->
-        <package name="com.lad.mapper"/>
-    </mappers>
-
 </configuration>

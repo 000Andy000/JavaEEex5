@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="
-            http://www.springframework.org/schema/beans
-            http://www.springframework.org/schema/beans/spring-beans.xsd
-            http://www.springframework.org/schema/mvc
-            http://www.springframework.org/schema/mvc/spring-mvc.xsd
-            http://www.springframework.org/schema/context
-            http://www.springframework.org/schema/context/spring-context.xsd">
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+  <!--spring容器配置文件-->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath*:applicationContext.xml</param-value>
+  </context-param>
+  <!--  启动Spring容器-->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
 
-  <!-- 开启注解驱动 -->
-  <mvc:annotation-driven />
 
-  <!-- 自动扫描 Controller 和其他组件 -->
-  <context:component-scan base-package="com.lad.controller, com.lad.service" />
+  <!--  springmvc核心控制器-->
+  <servlet>
+    <servlet-name>dispatcher</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath*:springmvc-config.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>dispatcher</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
 
-  <!-- 配置视图解析器 -->
-  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-    <property name="prefix" value="/WEB-INF/views/" />
-    <property name="suffix" value=".jsp" />
-  </bean>
-
-  <!-- 配置乱码处理过滤器 -->
-  <bean id="characterEncodingFilter" class="org.springframework.web.filter.CharacterEncodingFilter">
-    <property name="encoding" value="UTF-8" />
-    <property name="forceEncoding" value="true" />
-  </bean>
-
-  <!-- 配置 CORS -->
-  <mvc:cors>
-    <mvc:mapping path="/**" allowed-origins="http://localhost:8081" allowed-methods="GET, POST, PUT, DELETE, HEAD, OPTIONS" allowed-headers="*" allow-credentials="true" />
-  </mvc:cors>
-</beans>
+</web-app>

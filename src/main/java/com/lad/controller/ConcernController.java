@@ -4,6 +4,7 @@ import com.lad.model.Result;
 import com.lad.service.ConcernService;
 import com.lad.service.Impl.ConcernServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,11 @@ public class ConcernController {
         this.concernService = concernService;
     }
 
+    @GetMapping("/test")
+    public Result test(){
+        System.out.println("asdasd");
+        return new Result(200, null, "操作成功");
+    }
 
     //关注或取关
     @PutMapping("/toggle")

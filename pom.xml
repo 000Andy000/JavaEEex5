@@ -18,7 +18,7 @@
     <druid.version>1.1.16</druid.version>
     <servlet-api.version>4.0.1</servlet-api.version>
     <jackson.version>2.9.0</jackson.version>
-    <lombok.version>RELEASE</lombok.version>
+    <lombok.version>1.16.20</lombok.version>
     <commons-io.version>2.6</commons-io.version>
     <fileupload.version>1.4</fileupload.version>
   </properties>
@@ -132,14 +132,23 @@
             <port>8080</port>
           </configuration>
         </plugin>
-          <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <configuration>
-                  <source>7</source>
-                  <target>7</target>
-              </configuration>
-          </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>7</source>
+            <target>7</target>
+          </configuration>
+        </plugin>
+        <!--          <plugin>-->
+<!--              <groupId>org.apache.maven.plugins</groupId>-->
+<!--              <artifactId>maven-compiler-plugin</artifactId>-->
+<!--              <configuration>-->
+<!--                  <source>7</source>-->
+<!--                  <target>7</target>-->
+<!--              </configuration>-->
+<!--            <version>3.8.1</version>-->
+<!--          </plugin>-->
       </plugins>
   </build>
 </project>

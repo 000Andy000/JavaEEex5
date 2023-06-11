@@ -11,7 +11,6 @@
             http://www.springframework.org/schema/tx
             http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-
     <!-- 数据源配置 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
@@ -25,6 +24,10 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
+    <!-- 开启注解事务管理 -->
+    <tx:annotation-driven />
+
+    <!-- MyBatis与Spring的整合-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.lad.mapper" />
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
@@ -34,11 +37,13 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="typeAliasesPackage" value="com.lad.model" />
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
     </bean>
 
     <!-- Service 的自动扫描 -->
     <context:component-scan base-package="com.lad.service" />
 
-    <!-- 开启注解事务管理 -->
-    <tx:annotation-driven />
+    <!--启动注解识别  @Autowired，@Resource，@PostConstruct等-->
+    <context:annotation-config/>
+
 </beans>
