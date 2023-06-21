@@ -24,7 +24,7 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <!-- 开启注解事务管理 -->
+    <!-- 开启注解事务管理 @Transactional-->
     <tx:annotation-driven />
 
     <!-- MyBatis与Spring的整合-->
