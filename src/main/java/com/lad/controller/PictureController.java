@@ -30,30 +30,31 @@ public class PictureController {
 
     //上传图片信息
     @PostMapping
-    public Result uploadPicture(@RequestParam("file") MultipartFile file,
-                                @RequestParam("userId") String userId,
-                                @RequestParam("name") String name,
-                                @RequestParam("intro") String intro,
-                                @RequestParam("tags") String tags) {
-        try {
-            boolean success = pictureService.uploadPicture(file, userId, name, intro, tags);
-            if (success) {
-                return new Result(200, null, "上传成功");
-            } else {
-                return new Result(400, null, "上传失败");
-            }
-        } catch (IOException e) {
-            return new Result(500, null, "服务器内部错误");
+    public Result uploadPicture(HttpSession session,
+                                @ModelAttribute("selectedImage")MultipartFile selectedImage,
+                                @ModelAttribute("name") String name,
+                                @ModelAttribute("intro") String intro,
+                                @ModelAttribute("tags") String tags) throws IOException {
+        String userId = (String) session.getAttribute("userId");
+        Picture picture = new Picture();
+        picture.setSelectedImage(selectedImage);
+        picture.setIntro(intro);
+        picture.setName(name);
+        picture.setTags(tags);
+        System.out.println(picture);
+        System.out.println(selectedImage.getOriginalFilename());
+        boolean success = pictureService.uploadPicture(picture, userId);
+        if (success) {
+            return new Result(200, null, "上传成功");
+        } else {
+            return new Result(400, null, "上传失败");
         }
     }
 
     //修改图片信息
     @PutMapping
-    public Result updatePicture(@RequestParam("id") Integer id,
-                                @RequestParam("name") String name,
-                                @RequestParam("tag") String tag,
-                                @RequestParam("intro") String intro) {
-        boolean success = pictureService.updatePicture(id, name, tag, intro);
+    public Result updatePicture(@ModelAttribute("picture") Picture picture) {
+        boolean success = pictureService.updatePicture(picture);
         if (success) {
             return new Result(200, null, "更新成功");
         } else {

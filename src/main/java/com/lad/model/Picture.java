@@ -1,6 +1,7 @@
 package com.lad.model;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -14,5 +15,7 @@ public class Picture {
     String intro;
     String tags;
     Date uploadTime;
+    //暂存图片
+    MultipartFile selectedImage;
     long clickNum;
 }

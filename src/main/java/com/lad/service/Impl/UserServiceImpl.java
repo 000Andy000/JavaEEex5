@@ -44,7 +44,9 @@ public class UserServiceImpl implements UserService {
     //登录
     public User login(String username, String password) {
         User user = userDao.selectByUsernameAndPassword(username, password);
-        user.setStatus("1");
+        if(user!=null){
+            user.setStatus("1");
+        }
         return user;
     }
 

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -35,18 +36,14 @@ public class PictureServiceImpl implements PictureService {
     }
 
     //上传图片
-    public boolean uploadPicture(MultipartFile file, String userId, String name, String intro, String tags) throws IOException {
+    public boolean uploadPicture(Picture picture,String userId) throws IOException {
         // 上传文件并获取保存后的路径
-        String fileName = FileUploadUtil.uploadFile(file, userId);
+        String fileName = FileUploadUtil.uploadFile(picture.getSelectedImage(), userId);
 
-        // 创建 Picture 对象
-        Picture picture = new Picture();
-        picture.setName(name);
+        // 完善 Picture 对象
         picture.setFname(fileName);
         picture.setUserId(userId);
-        picture.setIntro(intro);
-        picture.setTags(tags);
-
+        picture.setUploadTime(new Date());
         // 将 Picture 对象保存到数据库
         int row = pictureDao.insertPicture(picture);
 
@@ -54,12 +51,7 @@ public class PictureServiceImpl implements PictureService {
     }
 
     // 更改图片
-    public boolean updatePicture(Integer id, String name,String tag, String intro) {
-        Picture picture = new Picture();
-        picture.setId(id);
-        picture.setName(name);
-        picture.setTags(tag);
-        picture.setIntro(intro);
+    public boolean updatePicture(Picture picture) {
         int row = pictureDao.updatePicture(picture);
         return row > 0;
     }

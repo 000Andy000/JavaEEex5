@@ -14,10 +14,10 @@ import java.util.List;
 public interface PictureService {
 
     //上传图片
-    public boolean uploadPicture(MultipartFile file, String userId, String name, String intro, String tags) throws IOException ;
+    public boolean uploadPicture(Picture picture,String userId) throws IOException;
 
     // 更改图片
-    public boolean updatePicture(Integer id, String name,String tag, String intro) ;
+    public boolean updatePicture(Picture picture) ;
 
     // 根据图片 ID 删除图片
     public boolean deletePictureById(Integer pictureId) ;
