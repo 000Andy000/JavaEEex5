@@ -13,12 +13,4 @@
         LIMIT #{offset}, #{pageSize}
     </select>
 
-    <select id="selectPicturesByConcern" resultType="com.lad.model.Picture">
-        SELECT * FROM picture
-        WHERE
-        <foreach collection="userIds" item="userId" separator=" OR ">
-            user_id = #{userId}
-        </foreach>
-        LIMIT #{offset}, #{pageSize}
-    </select>
 </mapper>

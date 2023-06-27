@@ -21,9 +21,13 @@ public interface UserDao {
     int insertUser(User user);
 
     //更新用户
-    @Update("UPDATE user SET name = #{name}, password = #{password}, intro = #{intro}, gender = #{gender}, province = #{province}, city = #{city}, " +
-            "type = #{type}, email = #{email}, mobile = #{mobile}, QQ = #{QQ}, status = #{status} WHERE id = #{id}")
+    @Update("UPDATE user SET name = #{name}, username = #{username}, gender = #{gender}, province = #{province}, city = #{city}, " +
+            " email = #{email}, mobile = #{mobile}, QQ = #{QQ} WHERE id = #{id}")
     int updateUser(User user);
+
+    //更新用户
+    @Update("UPDATE user SET password = #{password} WHERE id = #{id}")
+    int updatePassword(User user);
 
     //根据用户名和密码查找
     @Select("SELECT * FROM user WHERE username = #{username} AND password = #{password}")
@@ -39,7 +43,19 @@ public interface UserDao {
 
 
     //根据用户名模糊查询
-    @Select("SELECT * FROM user WHERE username LIKE CONCAT('%', #{username}, '%')")
-    List<User> searchByUsername(@Param("username") String username);
+    @Select("SELECT * FROM user WHERE name LIKE CONCAT('%', #{name}, '%')")
+    List<User> searchByName(@Param("name") String name);
 
+    @Select("SELECT COUNT(*) " +
+            "FROM concern " +
+            "WHERE concerned_id = #{id};")
+    int searchConcernedNum(@Param("id") Integer id);
+
+    @Select("SELECT COUNT(*) " +
+            "FROM concern " +
+            "WHERE concerner_id = #{id};")
+    int searchConcernerNum(@Param("id") Integer id);
+
+    @Update("UPDATE user SET intro = #{intro} WHERE id = #{id}")
+    int updateUserIntro(User user);
 }

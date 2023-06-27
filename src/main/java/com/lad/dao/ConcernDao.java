@@ -30,9 +30,9 @@ public interface ConcernDao {
 
     //查出所有A关注人的记录
     @Select("SELECT * FROM concern WHERE concerner_id = #{concernerId}")
-    List<Concern> selectConcerned(@Param("concernerId") Integer concernerId);
+    List<Concern> selectConcernByConcerner(@Param("concernerId") Integer concernerId);
 
-    //查出所有关注A的记录
+    //查出所有被关注者为A的记录
     @Select("SELECT * FROM concern WHERE concerned_id = #{concernedId}")
-    List<Concern> selectConcerner(@Param("concernedId") Integer concernedId);
+    List<Concern> selectConcernByConcerned(@Param("concernedId") Integer concernedId);
 }

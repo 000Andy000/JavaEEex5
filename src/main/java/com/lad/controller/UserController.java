@@ -4,11 +4,13 @@ import com.lad.model.Result;
 import com.lad.model.User;
 import com.lad.service.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Andy
@@ -55,16 +57,49 @@ public class UserController {
             return new Result(400, null, "用户名或密码错误，登录失败");
         }
     }
-    //查询用户详细信息
+
+    //查询本用户详细信息
     @GetMapping("/info")
-    public Result getByUserId(HttpSession session) {
+    public Result getMyInfo(HttpSession session) {
         //获取userId
         Integer userId = (Integer) session.getAttribute("userId");
-        System.out.println(userId);
-        userId = 42;
-        User user = userService.getUserById(userId);
+        User user = userService.getUserById(userId,userId);
         return new Result(200, user);
     }
+
+    //查询某用户详细信息
+    @GetMapping("/infoById")
+    public Result getByUserId(@RequestParam Integer userId,HttpSession session) {
+        //获取userId
+        Integer myId = (Integer) session.getAttribute("userId");
+        User user = userService.getUserById(userId,myId);
+        return new Result(200, user);
+    }
+
+    //判断是否为自己
+    @GetMapping("/is-self")
+    public Result isSelf(@RequestParam Integer userId,HttpSession session) {
+        //获取Session userId
+        Integer sessionUserId = (Integer) session.getAttribute("userId");
+        return new Result(200, Objects.equals(userId, sessionUserId));
+    }
+
+    //查询粉丝列表
+    @GetMapping("/fans")
+    public Result getFans(@RequestParam Integer userId,HttpSession session) {
+        Integer myId = (Integer) session.getAttribute("userId");
+        return new Result(200, userService.getFans(userId,myId));
+    }
+
+
+    //查询关注列表
+    @GetMapping("/concerned")
+    public Result getConcerned(@RequestParam Integer userId,HttpSession session) {
+        Integer myId = (Integer) session.getAttribute("userId");
+        return new Result(200, userService.getConcerned(userId,myId));
+    }
+
+
 
     //登出
     @PostMapping("/signout")
@@ -76,10 +111,12 @@ public class UserController {
         return new Result(200, null, "退出成功");
     }
 
-    //模糊查询用户
+    //根据name模糊查询用户
     @GetMapping("/search")
-    public Result searchByUsername(@RequestParam String username) {
-        List<User> users = userService.searchByUsername(username);
+    public Result searchByUsername(@RequestParam String name,HttpSession session) {
+        Integer myId = (Integer) session.getAttribute("userId");
+
+        List<User> users = userService.searchByUsername(name,myId);
         return new Result(200, users);
     }
 
@@ -87,8 +124,9 @@ public class UserController {
 
     //修改密码
     @PutMapping("/password")
-    public Result changePassword(@RequestParam String username, @RequestParam String oldPassword, @RequestParam String newPassword) {
-        boolean success = userService.changePassword(username, oldPassword, newPassword);
+    public Result changePassword(@RequestBody User user) {
+        System.out.println(user);
+        boolean success = userService.changePassword(user);
         if (success) {
             return new Result(200, null, "密码修改成功");
         } else {
@@ -106,4 +144,19 @@ public class UserController {
             return new Result(400, null, "用户信息更新失败");
         }
     }
+
+    //更新个性签名
+    @PutMapping("/intro")
+    public Result updateUserIntro(@RequestBody User user) {
+        boolean success = userService.updateUserIntro(user);
+        if (success) {
+            return new Result(200, user, "用户信息更新成功");
+        } else {
+            return new Result(400, null, "用户信息更新失败");
+        }
+    }
+
+
+
+
 }

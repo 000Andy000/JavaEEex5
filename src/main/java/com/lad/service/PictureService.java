@@ -30,10 +30,16 @@ public interface PictureService {
     public List<PictureVo> searchPicturesByTag(List<String> tags, int page, int pageSize);
 
     // 根据name搜索图片
-    public List<PictureVo> searchPicturesByName(String name, int page, int pageSize);
+    public List<PictureVo> searchPicturesByName(String name);
+
+    // 根据name和userID搜索图片
+    public List<PictureVo> searchPicturesByNameAndUserId(String userId,String name);
 
     // 获取关注的人的图片
     public List<PictureVo> searchPicturesByConcern(Integer userId, int page, int pageSize) ;
+
+    //获取最新的图片
+    public List<PictureVo> searchPicturesByTime(int page, int pageSize) ;
 
 
 }

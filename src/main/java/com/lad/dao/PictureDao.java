@@ -33,15 +33,45 @@ public interface PictureDao {
 
     //查询某用户的图片
     @Select("SELECT * FROM picture WHERE user_id = #{userId} LIMIT #{offset}, #{pageSize}")
-    List<Picture> selectPicturesByUserId(String userId, int offset, int pageSize);
+    List<Picture> selectPicturesByUserId(@Param("userId")String userId,@Param("offset")int offset, @Param("pageSize")int pageSize);
 
     //根据tag模糊查询
-    List<Picture> searchPicturesByTag(List<String> tags, int offset, int pageSize);
+    List<Picture> searchPicturesByTag(List<String> tags,@Param("offset")int offset, @Param("pageSize")int pageSize);
 
     //根据name模糊查询
-    @Select("SELECT * FROM picture WHERE name LIKE CONCAT('%', #{name}, '%') LIMIT #{offset}, #{pageSize}")
-    List<Picture> searchPicturesByName(String name, int offset, int pageSize);
+    @Select("SELECT * FROM picture WHERE name LIKE CONCAT('%', #{name}, '%')")
+    List<Picture> searchPicturesByName(@Param("name") String name);
 
-    List<Picture> selectPicturesByConcern(List<Integer> userIds, int offset, int pageSize);
+    //获取关注用户的图
+    @Select("SELECT p.* FROM picture p "+
+            "JOIN concern c ON c.concerned_id = p.user_id "+
+            "WHERE c.concerner_id = #{userId} "+
+            "LIMIT #{offset}, #{pageSize} "
+    )
+    List<Picture> selectPicturesByConcern(@Param("userId") int userId, @Param("offset")int offset, @Param("pageSize")int pageSize);
 
+    //获取最新的
+    @Select("SELECT * FROM " +
+            "(SELECT * FROM picture " +
+            "ORDER BY upload_time DESC) " +
+            "AS sorted_pictures " +
+            "ORDER BY upload_time DESC " +
+            "LIMIT #{offset}, #{pageSize}"
+    )
+    List<Picture> selectPicturesByTime(@Param("offset")int offset, @Param("pageSize")int pageSize);
+
+    //获取某用户前五张图
+    @Select("SELECT * FROM " +
+            "(SELECT * FROM picture " +
+            "WHERE user_id = #{userId} " +
+            "ORDER BY upload_time DESC) " +
+            "AS sorted_pictures " +
+            "LIMIT 0,5")
+    List<Picture> selectFiveImg(@Param("userId") int userId);
+
+    @Select("SELECT * FROM " +
+            "picture " +
+            "WHERE user_id=#{userId} " +
+            "AND name LIKE CONCAT('%', #{name}, '%') ")
+    List<Picture> searchPicturesByNameAndUserId(@Param("userId")String userId, @Param("name")String name);
 }

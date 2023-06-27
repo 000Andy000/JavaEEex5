@@ -12,8 +12,10 @@ com\lad\config\SpringConfig.class
 com\lad\controller\ConcernController.class
 com\lad\config\SpringMvcConfig.class
 com\lad\controller\UserController.class
+com\lad\utils\TimestampUtils.class
 com\lad\config\MybatisConfig.class
 com\lad\model\Concern.class
+com\lad\utils\ImgTransfer.class
 com\lad\config\WebConfig.class
 com\lad\model\Picture.class
 com\lad\config\JdbcConfig.class

@@ -18,18 +18,21 @@ public interface UserService {
     //登出
     public void signOut(Integer id);
 
+    //获取个人信息
+    public User getUserById(Integer id,int myId);
+
     //模糊查询用户
-    public List<User> searchByUsername(String username) ;
+    public List<User> searchByUsername(String username,Integer myId) ;
 
     //修改密码
-    public boolean changePassword(String username, String oldPassword, String newPassword) ;
+    public boolean changePassword(User user) ;
 
     //修改个人信息
     public boolean updateUser(User user) ;
 
     //获取关注列表
-    public List<User> getConcerned(Integer userId) ;
+    public List<User> getConcerned(Integer userId,Integer myId) ;
 
     //获取粉丝列表
-    public List<User> getFans(Integer userId) ;
+    public List<User> getFans(Integer userId,Integer myId) ;
 }

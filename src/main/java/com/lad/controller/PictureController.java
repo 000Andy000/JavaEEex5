@@ -90,12 +90,18 @@ public class PictureController {
     }
 
     //分页按图片名查询图片
-    @GetMapping("/name/{name}")
-    public Result searchPicturesByName(@PathVariable("name") String name, @RequestParam("pageNum") String pageNum) {
-        int pageSize = 8;
-        List<PictureVo> pictures = pictureService.searchPicturesByName(name,Integer.parseInt(pageNum),pageSize);
+    @GetMapping("/name")
+    public Result searchPicturesByName(@RequestParam("name") String name) {
+        List<PictureVo> pictures = pictureService.searchPicturesByName(name);
         return new Result(200, pictures, "查询成功");
     }
+    //按图片名和用户id查询图片
+    @GetMapping("/user/name")
+    public Result searchPicturesByNameAndUserId(@RequestParam("userId") String userId,@RequestParam("name") String name) {
+        List<PictureVo> pictures = pictureService.searchPicturesByNameAndUserId(userId,name);
+        return new Result(200, pictures, "查询成功");
+    }
+
 
     //分页查询关注的人的图片
     @GetMapping("/concern")
@@ -104,6 +110,14 @@ public class PictureController {
         //获取userId
         Integer userId = (Integer) session.getAttribute("userId");
         List<PictureVo> pictures = pictureService.searchPicturesByConcern(userId, Integer.parseInt(pageNum),pageSize);
+        return new Result(200, pictures, "查询成功");
+    }
+
+    //分页查询最新的图片
+    @GetMapping
+    public Result searchByTime( @RequestParam("pageNum") String pageNum){
+        int pageSize = 8;
+        List<PictureVo> pictures = pictureService.searchPicturesByTime(Integer.parseInt(pageNum),pageSize);
         return new Result(200, pictures, "查询成功");
     }
 

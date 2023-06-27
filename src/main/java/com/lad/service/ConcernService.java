@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface ConcernService {
     //添加、删除关注记录
-    public boolean toggleConcern(Integer concernerId, Integer concernedId) ;
+    public int toggleConcern(Integer concernerId, Integer concernedId) ;
 
 
 

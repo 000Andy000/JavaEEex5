@@ -13,6 +13,8 @@ import com.lad.model.User;
 import com.lad.model.vo.PictureVo;
 import com.lad.service.PictureService;
 import com.lad.utils.FileUploadUtil;
+import com.lad.utils.ImgTransfer;
+import com.lad.utils.TimestampUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -73,13 +75,14 @@ public class PictureServiceImpl implements PictureService {
         for (Picture picture : pictures) {
             //获取图片发布者用户名
             Integer userId = Integer.valueOf(picture.getUserId());
-            String username = userDao.selectByUserId(userId).getUsername();
+            String username = userDao.selectByUserId(userId).getName();
             PictureVo pictureVo = new PictureVo();
             pictureVo.setId(picture.getId());
+            pictureVo.setUserId(userId);
             pictureVo.setName(picture.getName());
             pictureVo.setUsername(username);
-            pictureVo.setFname(picture.getFname());
-            pictureVo.setUploadTime(picture.getUploadTime());
+            pictureVo.setFname(ImgTransfer.pathToRequest(picture.getFname()));
+            pictureVo.setUploadTime(TimestampUtils.toString(picture.getUploadTime()));
             pictureVos.add(pictureVo);
         }
         return pictureVos;
@@ -100,21 +103,29 @@ public class PictureServiceImpl implements PictureService {
     }
 
     // 根据name搜索图片
-    public List<PictureVo> searchPicturesByName(String name, int page, int pageSize) {
-        int offset = (page - 1) * pageSize;
-        List<Picture> pictures = pictureDao.searchPicturesByName(name, offset, pageSize);
+    public List<PictureVo> searchPicturesByName(String name) {
+        List<Picture> pictures = pictureDao.searchPicturesByName(name);
+        return  toPicVo(pictures);
+    }
+
+    //按userid和name查询
+    @Override
+    public List<PictureVo> searchPicturesByNameAndUserId(String userId, String name) {
+        List<Picture> pictures = pictureDao.searchPicturesByNameAndUserId(userId,name);
         return  toPicVo(pictures);
     }
 
     // 获取关注的人的图片
     public List<PictureVo> searchPicturesByConcern(Integer userId, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        ArrayList<Integer> userIds = new ArrayList<>();
-        List<Concern> concerns = concernDao.selectConcerner(userId);
-        for (Concern concern:concerns){
-            userIds.add((userDao.selectByUserId(concern.getConcernedId())).getId());
-        }
-        List<Picture> pictures = pictureDao.selectPicturesByConcern(userIds,offset,pageSize);
+        List<Picture> pictures = pictureDao.selectPicturesByConcern(userId,offset,pageSize);
+        return toPicVo(pictures);
+    }
+
+    @Override
+    public List<PictureVo> searchPicturesByTime(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        List<Picture> pictures = pictureDao.selectPicturesByTime(offset,pageSize);
         return toPicVo(pictures);
     }
 

@@ -12,10 +12,11 @@ import java.util.Date;
 public class PictureVo {
 
     private Integer id;
+    private Integer userId;
     private String username;
     private String name;
     private String fname;
-    private Date uploadTime;
+    private String uploadTime;
 
 }
 

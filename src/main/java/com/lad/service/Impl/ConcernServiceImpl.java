@@ -24,22 +24,22 @@ public class ConcernServiceImpl implements ConcernService {
 
 
     //添加、删除关注记录
-    public boolean toggleConcern(Integer concernerId, Integer concernedId) {
+    public int toggleConcern(Integer concernerId, Integer concernedId) {
         Concern concern = new Concern();
         concern.setConcernerId(concernerId);
         concern.setConcernedId(concernedId);
 
         Concern existingConcern = concernDao.selectConcern(concernerId, concernedId);
-        int rows;
         if (existingConcern != null) {
             // 已存在关注记录，删除该记录
-            rows = concernDao.deleteConcern(concernerId, concernedId);
+            concernDao.deleteConcern(concernerId, concernedId);
+            return 0;//取关成功
         } else {
             // 不存在关注记录，添加新记录
             concern.setConcernTime(new Date());  // 设置关注时间为当前时间
-            rows = concernDao.insertConcern(concern);
+            concernDao.insertConcern(concern);
         }
-        return rows > 0;
+        return 1 ;//关注成功
     }
 }
 
