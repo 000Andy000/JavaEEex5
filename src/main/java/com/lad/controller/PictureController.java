@@ -31,18 +31,19 @@ public class PictureController {
     //上传图片信息
     @PostMapping
     public Result uploadPicture(HttpSession session,
-                                @ModelAttribute("selectedImage")MultipartFile selectedImage,
-                                @ModelAttribute("name") String name,
-                                @ModelAttribute("intro") String intro,
-                                @ModelAttribute("tags") String tags) throws IOException {
+                                @RequestBody Picture picture
+//                                @ModelAttribute("selectedImage")MultipartFile selectedImage,
+//                                @ModelAttribute("name") String name,
+//                                @ModelAttribute("intro") String intro,
+//                                @ModelAttribute("tags") String tags
+    ) throws IOException {
         String userId = (String) session.getAttribute("userId");
-        Picture picture = new Picture();
-        picture.setSelectedImage(selectedImage);
-        picture.setIntro(intro);
-        picture.setName(name);
-        picture.setTags(tags);
-        System.out.println(picture);
-        System.out.println(selectedImage.getOriginalFilename());
+//        picture.setSelectedImage(selectedImage);
+        picture.setIntro(picture.getIntro());
+        picture.setName(picture.getName());
+        picture.setTags(picture.getTags());
+//        System.out.println(picture);
+//        System.out.println(selectedImage.getOriginalFilename());
         boolean success = pictureService.uploadPicture(picture, userId);
         if (success) {
             return new Result(200, null, "上传成功");
